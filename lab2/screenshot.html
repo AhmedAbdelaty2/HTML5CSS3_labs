@@ -11,11 +11,13 @@
         <video autoplay="true" id="videoElement"></video>
         <button onclick="screenshot();">ScreenShot</button>
         <canvas id="showscreenshot" ></canvas>
+        <img id="showscreenshotimg" />
     </div>
     
     <script>
         var video = document.querySelector("#videoElement");
         var canvas = document.querySelector("#showscreenshot");
+        var img = document.querySelector("#showscreenshotimg");
 
         async function startCamera(){
         if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
@@ -26,12 +28,15 @@
 
         startCamera();
 
+        if(localStorage.myimage){
+            img.src = localStorage.myimage;
+        }
+
         function screenshot() {
             canvas.width = video.videoWidth;
             canvas.height = video.videoHeight;
             let ctx = canvas.getContext("2d");
             ctx.drawImage(video, 0, 0);
-            // Other browsers will fall back to image/png
             let imgAsStr = canvas.toDataURL("image/webp");
             console.log(imgAsStr);
             localStorage.myimage = imgAsStr;
